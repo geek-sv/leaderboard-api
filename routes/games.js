@@ -25,11 +25,20 @@ router.post('/newgame', function(req,res){
 		if(err)
 			return res.send(500, err.message);
 		res.status(200).jsonp(game);
+		//console.log('done!')
 	})
 });
-
+router.get('/gamelist', function(req,res){
+	Game.find(function(err, games){
+		if(err) 
+			res.send(500, err.message);
+		console.log('GET/gamelist');
+		//mostrar en pantalla json
+		res.status(200).jsonp(games);
+	});
+});
 
 //GET - Return all games in DB
-//exports.findAllGames 
+
 
 module.exports = router;
