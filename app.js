@@ -36,6 +36,7 @@ app.use('/users', users);
 
 app.use('/games', games);
 
+app.use('/newgame',games);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
