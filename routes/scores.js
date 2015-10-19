@@ -22,9 +22,7 @@ router.post('/newscore', function(req,res,next){
 	scored.save(function(err, scored){
 		if(err)
 			return res.send(500, err.message);
-		res.status(200).jsonp(scored);
-		console.log(req.body);
-		//console.log('done!')
+		res.status(200).send(scored);
 	})
 
 

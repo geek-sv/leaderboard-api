@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
+var mongoose = require('mongoose');
 var Player = require('../models/player');
 var Score = require('../models/score');
 var Game = require('../models/games');
 var countries = require('../public/javascripts/countries.json');
-
+var ObjectId = require('mongoose').Types.ObjectId;
 /* GET s listing. */
 router.get('/', function(req, res, next) {
   res.send('players');
@@ -27,9 +28,7 @@ router.post('/newplayer', function(req,res,next){
 	player.save(function(err, player){
 		if(err)
 			return res.send(500, err.message);
-		res.status(200).jsonp(player);
-		console.log(req.body);
-		//console.log('done!')
+		res.status(200).send(player);
 	})
 
 
@@ -41,28 +40,21 @@ router.get('/playerlist', function(req,res){
 	Player.find({},{},function(err, player){
 		if(err) 
 			res.send(500, err.message);
-		console.log('GET/gamelist');
 		//Show json response
-		//res.status(200).jsonp(games);
-		res.send(player);
+		res.status(200).send(player);
 	});
 });
 
+
+//Show game's list for a specific player
 router.get('/playergamelist/:id', function(req,res,next){
-	
-	Score.find({'player':req.params.id}, function(err, score){
-		Player.populate(score, {path:'player',select:'firstname lastname'},function(err,score){
-			Game.populate(score, {path:'game', select:'title'}, function(err, score){
-			res.status(200).send(score);
-		});
-		});
-		
+	var id = new ObjectId(req.params.id);
+
+	Score.aggregate([{$match:{'player':id}},{$group:{_id: '$game'}}]).exec(function(err,result){
+			Game.populate(result, {path:'_id'}, function(err, game){
+				res.status(200).send(game);
+			});
 	});
-	/*Score.find({'player': req.params.id},{}, function(err, score){
-		if(err)
-			res.send(500, err.message);
-		res.send(score);
-	});*/
 });
 
 
