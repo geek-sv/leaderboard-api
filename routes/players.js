@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var Player = require('../models/player');
+var Score = require('../models/score');
+var Game = require('../models/games');
 var countries = require('../public/javascripts/countries.json');
 
 /* GET s listing. */
@@ -46,7 +48,22 @@ router.get('/playerlist', function(req,res){
 	});
 });
 
-
+router.get('/playergamelist/:id', function(req,res,next){
+	
+	Score.find({'player':req.params.id}, function(err, score){
+		Player.populate(score, {path:'player',select:'firstname lastname'},function(err,score){
+			Game.populate(score, {path:'game', select:'title'}, function(err, score){
+			res.status(200).send(score);
+		});
+		});
+		
+	});
+	/*Score.find({'player': req.params.id},{}, function(err, score){
+		if(err)
+			res.send(500, err.message);
+		res.send(score);
+	});*/
+});
 
 
 

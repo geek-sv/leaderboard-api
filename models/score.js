@@ -9,4 +9,5 @@ var scoreSchema = mongoose.Schema({
 
 var Score = mongoose.model('Scores', scoreSchema);
 
+
 module.exports = Score;
