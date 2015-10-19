@@ -14,6 +14,10 @@ var users = require('./routes/users');
 // require games pages
 var games = require('./routes/games');
 
+var players = require('./routes/players');
+
+var score = require('./routes/scores');
+
 var app = express();
 
 //connecting with mongolab
@@ -33,10 +37,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/score', score);
+app.use('/newscore', score);
+//routes 
+app.use('/players', players);
+app.use('/newplayer', players);
 
 app.use('/games', games);
 app.use('/newgame',games);
 app.use('/gamelist',games);
+app.use('/:id',games);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

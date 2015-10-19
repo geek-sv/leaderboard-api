@@ -3,10 +3,8 @@ var mongoose = require('mongoose');
 var playerSchema = mongoose.Schema({
 	firstname: String,
 	lastname: String,
-	age: Integer,
-	country: String,
-	games: [{type:Schema.ObjectId, ref:"Game"}]
-	
+	age: Number,
+	country: String
 });
 
 var Player = mongoose.model('Player', playerSchema);

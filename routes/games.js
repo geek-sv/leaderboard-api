@@ -25,20 +25,37 @@ router.post('/newgame', function(req,res){
 		if(err)
 			return res.send(500, err.message);
 		res.status(200).jsonp(game);
+		console.log(req.body);
 		//console.log('done!')
 	})
 });
+
+//GET game list 
+
 router.get('/gamelist', function(req,res){
-	Game.find(function(err, games){
+	Game.find({}, '_id title description',function(err, games){
 		if(err) 
 			res.send(500, err.message);
 		console.log('GET/gamelist');
-		//mostrar en pantalla json
-		res.status(200).jsonp(games);
+		//Show json response
+		//res.status(200).jsonp(games);
+		res.send(games);
 	});
 });
 
-//GET - Return all games in DB
+// GET a specific game
+
+router.get('/:id', function(req,res){
+	Game.findById(req.params.id, function(err, game){
+		if(err) 
+			return res.send(500, err.message);
+		console.log('GET /'+req.params.id);
+		//Show json response
+		//res.status(200).jsonp(game);
+		//res.send(game);
+		res.send(game);
+	});
+});
 
 
 module.exports = router;
