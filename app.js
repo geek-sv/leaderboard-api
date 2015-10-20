@@ -18,6 +18,8 @@ var players = require('./routes/players');
 
 var score = require('./routes/scores');
 
+var leaderboard= require('./routes/leaderboard');
+
 var app = express();
 
 //connecting with mongolab
@@ -36,6 +38,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/leaderboard', leaderboard);
 app.use('/users', users);
 app.use('/score', score);
 app.use('/newscore', score);
@@ -47,6 +50,8 @@ app.use('/games', games);
 app.use('/newgame',games);
 app.use('/gamelist',games);
 app.use('/:id',games);
+
+
 
 
 

@@ -50,8 +50,15 @@ router.get('/playerlist', function(req,res){
 router.get('/playergamelist/:id', function(req,res,next){
 	var id = new ObjectId(req.params.id);
 
-	Score.aggregate([{$match:{'player':id}},{$group:{_id: '$game'}}]).exec(function(err,result){
-			Game.populate(result, {path:'_id'}, function(err, game){
+	Score.aggregate([
+		{
+			$match:{'player':id}
+		},{
+			$group:{_id: '$game'}
+		},{
+			$project:{game:"$_id",_id:0}
+		}]).exec(function(err,result){
+			Game.populate(result, {path:'game'}, function(err, game){
 				res.status(200).send(game);
 			});
 	});
