@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Game = require('../models/games');
-
+var middleware = require('../auth/middleware.js');
 
 // GET games  listing. 
 router.get('/', function(req, res, next) {
@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 //GET new game form
-router.get('/newgame', function(req,res,next){
+router.get('/newgame',middleware.ensureAuthenticatedAdmin, function(req,res,next){
 	res.render('newgame',{title:'New Game'});
 });
 

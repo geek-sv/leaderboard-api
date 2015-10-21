@@ -5,11 +5,18 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var jwt = require('jsonwebtoken');
 
+var tokenconfig = require('./config/role.js');
 //config settings for example: mongodb uri
 var config = require('./config/config.json');
 
 var routes = require('./routes/index');
+
+var authentication = require('./routes/auth');
+//create token for apps
+var auth = require('./routes/auth');
+
 var users = require('./routes/users');
 // require games pages
 var games = require('./routes/games');
@@ -37,6 +44,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/login', authentication);
 app.use('/', routes);
 app.use('/leaderboard', leaderboard);
 app.use('/users', users);

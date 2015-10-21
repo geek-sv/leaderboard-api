@@ -6,9 +6,10 @@ var Score = require('../models/score');
 var Game = require('../models/games');
 var Player = require('../models/player');
 var moment = require('moment');
+var middleware = require('../auth/middleware.js');
 
 // GET leaderboard for a specifyc game
-router.get('/:gameid/:start/:end', function(req,res,next){
+router.get('/:gameid/:start/:end', middleware.ensureAuthenticatedFull, function(req,res,next){
 		var id =new ObjectId(req.params.gameid);
 		var string = '{\''+req.params.gameid +'\' : hola}'
 	

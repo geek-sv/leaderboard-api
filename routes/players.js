@@ -6,18 +6,20 @@ var Score = require('../models/score');
 var Game = require('../models/games');
 var countries = require('../public/javascripts/countries.json');
 var ObjectId = require('mongoose').Types.ObjectId;
+var middleware = require('../auth/middleware.js');
+
 /* GET s listing. */
 router.get('/', function(req, res, next) {
   res.send('players');
 });
 
 //GET New player form
-router.get('/newplayer', function(req,res,next){
+router.get('/newplayer',middleware.ensureAuthenticatedAdmin, function(req,res,next){
 	res.render('newplayer',{title:'New Player', json:countries});
 });
 
 // save New Player
-router.post('/newplayer', function(req,res,next){
+router.post('/newplayer',middleware.ensureAuthenticatedAdmin, function(req,res,next){
 	var player = new Player({
 		firstname: req.body.firstname,
 		lastname: req.body.lastname,
@@ -36,7 +38,7 @@ router.post('/newplayer', function(req,res,next){
 
 //GET player list with details 
 
-router.get('/playerlist', function(req,res){
+router.get('/playerlist', middleware.ensureAuthenticatedFull, function(req,res){
 	Player.find({},{},function(err, player){
 		if(err) 
 			res.send(500, err.message);
@@ -47,7 +49,7 @@ router.get('/playerlist', function(req,res){
 
 
 //Show game's list for a specific player
-router.get('/playergamelist/:id', function(req,res,next){
+router.get('/playergamelist/:id',middleware.ensureAuthenticatedFull, function(req,res,next){
 	var id = new ObjectId(req.params.id);
 
 	Score.aggregate([

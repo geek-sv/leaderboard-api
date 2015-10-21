@@ -1,18 +1,19 @@
 var express = require('express');
 var router = express.Router();
-var Score = require('../models/score')
+var Score = require('../models/score');
+var middleware = require('../auth/middleware.js');
 
 // GET score  listing. 
 router.get('/', function(req, res, next) {
   res.send('scores');
 }); 
 
-router.get('/newscore', function(req,res){
+router.get('/newscore', middleware.ensureAuthenticatedAdmin, function(req,res){
 	res.render('newscore', {title:'New Score'});
 });
 
 // save New Player
-router.post('/newscore', function(req,res,next){
+router.post('/newscore', middleware.ensureAuthenticatedAdmin, function(req,res,next){
 	var scored = new Score({
 		player: req.body.playerid,
 		game: req.body.gameid,
