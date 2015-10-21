@@ -17,7 +17,6 @@ var routes = require('./routes/index');
 
 var authentication = require('./routes/auth');
 
-var users = require('./routes/users');
 
 var games = require('./routes/games');
 
