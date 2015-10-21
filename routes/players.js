@@ -47,6 +47,16 @@ router.get('/playerlist', middleware.ensureAuthenticatedFull, function(req,res){
 	});
 });
 
+// GET a specific player
+
+router.get('/:id', middleware.ensureAuthenticatedFull, function(req,res){
+	Player.findById(req.params.id, function(err, player){
+		if(err) 
+			return res.send(500, err.message);
+		console.log('GET /'+req.params.id);
+		res.send(player);
+	});
+});
 
 //Show game's list for a specific player
 router.get('/playergamelist/:id',middleware.ensureAuthenticatedFull, function(req,res,next){
