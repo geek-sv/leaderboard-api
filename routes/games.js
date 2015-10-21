@@ -9,12 +9,12 @@ router.get('/', function(req, res, next) {
 });
 
 //GET new game form
-router.get('/newgame',middleware.ensureAuthenticatedAdmin, function(req,res,next){
+router.get('/newgame',middleware.ensureAuthenticatedFull, function(req,res,next){
 	res.render('newgame',{title:'New Game'});
 });
 
 //Save new game in DB
-router.post('/newgame', function(req,res){
+router.post('/newgame',middleware.ensureAuthenticatedFull, function(req,res){
 	var game = new Game({
 		title: req.body.gametitle,
 		description: req.body.gamedescription,
@@ -24,21 +24,18 @@ router.post('/newgame', function(req,res){
 	game.save(function(err, game){
 		if(err)
 			return res.send(500, err.message);
-		res.status(200).jsonp(game);
+		res.send(game);
 		console.log(req.body);
-		//console.log('done!')
 	})
 });
 
 //GET game list 
 
-router.get('/gamelist', function(req,res){
+router.get('/gamelist',middleware.ensureAuthenticatedRead, function(req,res){
 	Game.find({}, '_id title description',function(err, games){
 		if(err) 
 			res.send(500, err.message);
 		console.log('GET/gamelist');
-		//Show json response
-		//res.status(200).jsonp(games);
 		res.send(games);
 	});
 });
@@ -49,10 +46,6 @@ router.get('/:id', function(req,res){
 	Game.findById(req.params.id, function(err, game){
 		if(err) 
 			return res.send(500, err.message);
-		console.log('GET /'+req.params.id);
-		//Show json response
-		//res.status(200).jsonp(game);
-		//res.send(game);
 		res.send(game);
 	});
 });

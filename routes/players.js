@@ -14,12 +14,12 @@ router.get('/', function(req, res, next) {
 });
 
 //GET New player form
-router.get('/newplayer',middleware.ensureAuthenticatedAdmin, function(req,res,next){
+router.get('/newplayer',middleware.ensureAuthenticatedFull, function(req,res,next){
 	res.render('newplayer',{title:'New Player', json:countries});
 });
 
-// save New Player
-router.post('/newplayer',middleware.ensureAuthenticatedAdmin, function(req,res,next){
+// Save New Player
+router.post('/newplayer',middleware.ensureAuthenticatedFull, function(req,res,next){
 	var player = new Player({
 		firstname: req.body.firstname,
 		lastname: req.body.lastname,
@@ -36,9 +36,9 @@ router.post('/newplayer',middleware.ensureAuthenticatedAdmin, function(req,res,n
 
 });
 
-//GET player list with details 
+//GET playerlist with details 
 
-router.get('/playerlist', middleware.ensureAuthenticatedFull, function(req,res){
+router.get('/playerlist', middleware.ensureAuthenticatedRead, function(req,res){
 	Player.find({},{},function(err, player){
 		if(err) 
 			res.send(500, err.message);
@@ -47,9 +47,9 @@ router.get('/playerlist', middleware.ensureAuthenticatedFull, function(req,res){
 	});
 });
 
-// GET a specific player
+// GET Information for a specific player
 
-router.get('/:id', middleware.ensureAuthenticatedFull, function(req,res){
+router.get('/:id', middleware.ensureAuthenticatedRead, function(req,res){
 	Player.findById(req.params.id, function(err, player){
 		if(err) 
 			return res.send(500, err.message);
@@ -59,7 +59,7 @@ router.get('/:id', middleware.ensureAuthenticatedFull, function(req,res){
 });
 
 //Show game's list for a specific player
-router.get('/playergamelist/:id',middleware.ensureAuthenticatedFull, function(req,res,next){
+router.get('/playergamelist/:id',middleware.ensureAuthenticatedRead, function(req,res,next){
 	var id = new ObjectId(req.params.id);
 
 	Score.aggregate([
@@ -71,7 +71,7 @@ router.get('/playergamelist/:id',middleware.ensureAuthenticatedFull, function(re
 			$project:{game:"$_id",_id:0}
 		}]).exec(function(err,result){
 			Game.populate(result, {path:'game'}, function(err, game){
-				res.status(200).send(game);
+				res.send(game);
 			});
 	});
 });

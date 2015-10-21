@@ -8,12 +8,12 @@ router.get('/', function(req, res, next) {
   res.send('scores');
 }); 
 
-router.get('/newscore', middleware.ensureAuthenticatedAdmin, function(req,res){
+router.get('/newscore', middleware.ensureAuthenticatedFull, function(req,res){
 	res.render('newscore', {title:'New Score'});
 });
 
 // save New Player
-router.post('/newscore', middleware.ensureAuthenticatedAdmin, function(req,res,next){
+router.post('/newscore', middleware.ensureAuthenticatedFull, function(req,res,next){
 	var scored = new Score({
 		player: req.body.playerid,
 		game: req.body.gameid,
@@ -23,7 +23,7 @@ router.post('/newscore', middleware.ensureAuthenticatedAdmin, function(req,res,n
 	scored.save(function(err, scored){
 		if(err)
 			return res.send(500, err.message);
-		res.status(200).send(scored);
+		res.send(scored);
 	})
 
 

@@ -1,3 +1,4 @@
+//SCORE MODEL
 var mongoose = require('mongoose');
 
 var scoreSchema = mongoose.Schema({

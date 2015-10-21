@@ -1,3 +1,5 @@
+//GENERATE ACCESS TOKEN FOR CLIENT APPLICATION AND ADMIN APPLICATION
+
 var express = require('express');
 var router= express.Router();
 var mongoose = require('mongoose');
@@ -56,6 +58,11 @@ router.post('/auth', function(req,res){
 			
 	});
 
+});
+
+router.get('/logout', function(req, res){
+	req.logout();
+	res.redirect('/login');
 });
 
 module.exports= router;

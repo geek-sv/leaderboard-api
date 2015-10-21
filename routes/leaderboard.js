@@ -9,9 +9,9 @@ var moment = require('moment');
 var middleware = require('../auth/middleware.js');
 
 // GET leaderboard for a specifyc game
-router.get('/:gameid/:start/:end', middleware.ensureAuthenticatedFull, function(req,res,next){
+router.get('/:gameid/:start/:end', middleware.ensureAuthenticatedRead, function(req,res,next){
 		var id =new ObjectId(req.params.gameid);
-		var string = '{\''+req.params.gameid +'\' : hola}'
+		var string = '{\''+req.params.gameid +'\' : hola}' //delete after
 	
 		var start = moment.utc(req.params.start, "YYYYMMDD");
 		var end = moment.utc(req.params.end,"YYYYMMDD").add({'hours':23,'minutes':59,'seconds':59});

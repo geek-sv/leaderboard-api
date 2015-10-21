@@ -1,3 +1,4 @@
+//USER MODEL for generate token
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 

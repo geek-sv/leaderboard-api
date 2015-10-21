@@ -1,7 +1,11 @@
+//middleware for verify access to endpoint
+
 var jwt = require('jsonwebtoken');
 var config = require('../config/config.json');
 
-exports.ensureAuthenticatedFull = function(req,res,next){
+
+//Verify READ-ONLY ACCESS
+exports.ensureAuthenticatedRead = function(req,res,next){
 	if(!req.headers.authorization){
 		return res.send(403,'Request doesnt have headers');
 	}
@@ -26,7 +30,8 @@ exports.ensureAuthenticatedFull = function(req,res,next){
         });
     } 
 
-exports.ensureAuthenticatedAdmin = function(req,res,next){
+//Verify FULL-ACCESS 
+exports.ensureAuthenticatedFull = function(req,res,next){
 	if(!req.headers.authorization){
 		return res.send(403,'Request doesnt have headers');
 	}

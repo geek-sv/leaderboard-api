@@ -1,3 +1,6 @@
+//Only for test purpose 
+// Create client and admin credentials
+
 var User = require('../models/user');
 
 var user = new User({

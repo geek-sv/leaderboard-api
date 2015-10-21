@@ -1,3 +1,4 @@
+//PLAYER MODEL
 var mongoose = require('mongoose');
 
 var playerSchema = mongoose.Schema({

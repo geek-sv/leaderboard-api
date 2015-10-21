@@ -7,18 +7,18 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 
+// config with roles for generate token
 var tokenconfig = require('./config/role.js');
-//config settings for example: mongodb uri
+//config settings for example: mongodb uri, token phrases
 var config = require('./config/config.json');
+
 
 var routes = require('./routes/index');
 
 var authentication = require('./routes/auth');
-//create token for apps
-var auth = require('./routes/auth');
 
 var users = require('./routes/users');
-// require games pages
+
 var games = require('./routes/games');
 
 var players = require('./routes/players');
@@ -44,13 +44,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+//routes auth
 app.use('/login', authentication);
+
 app.use('/', routes);
+
 app.use('/leaderboard', leaderboard);
-app.use('/users', users);
+
+
 app.use('/score', score);
 app.use('/newscore', score);
-//routes 
+
 app.use('/players', players);
 app.use('/newplayer', players);
 

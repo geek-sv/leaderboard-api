@@ -1,3 +1,5 @@
+//GAME MODEL
+
 var mongoose = require('mongoose');
 
 var gameSchema = mongoose.Schema({
