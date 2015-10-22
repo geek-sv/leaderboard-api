@@ -20,7 +20,10 @@ router.get('/newplayer',middleware.ensureAuthenticatedFull, function(req,res,nex
 
 // Save New Player
 router.post('/newplayer',middleware.ensureAuthenticatedFull, function(req,res,next){
-	var player = new Player({
+	if(JSON.stringify(req.params) === '{}'){
+		res.send(500, 'request doesnt have parameters');
+	}else{
+		var player = new Player({
 		firstname: req.body.firstname,
 		lastname: req.body.lastname,
 		age: req.body.age,
@@ -32,7 +35,7 @@ router.post('/newplayer',middleware.ensureAuthenticatedFull, function(req,res,ne
 			return res.send(500, err.message);
 		res.status(200).send(player);
 	})
-
+}
 
 });
 

@@ -1,0 +1,23 @@
+extends layout
+
+block content
+	form(action="/players/newplayer", method="post")
+		div
+			input(type="text", name="firstname", placeholder="First Name")
+		div
+			input(type="text", name="lastname", placeholder="Last Name")
+		div
+			select(name="age")
+				option(value="", selected="selected") Select an Age
+				- for(var i=1; i < 100; i++){
+					option(value= "#{i}") #{i}
+				- }
+		div
+			select(name="country")
+				option(value="", selected="selected") Select an Country
+				- each val in json
+					option(value="#{val}") #{val}
+		div
+			input(type="submit")
+
+		

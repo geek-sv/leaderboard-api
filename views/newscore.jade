@@ -1,0 +1,12 @@
+extends layout
+
+block content
+	form(action="/score/newscore", method="post")
+		div
+			input(type="text", name="playerid", placeholder="Player ID")
+		div
+			input(type="text", name="gameid", placeholder="Game ID")
+		div
+			input(type="text", name="score", placeholder="Score")
+		div
+			input(type="submit")

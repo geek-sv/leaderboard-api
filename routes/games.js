@@ -15,6 +15,10 @@ router.get('/newgame',middleware.ensureAuthenticatedFull, function(req,res,next)
 
 //Save new game in DB
 router.post('/newgame',middleware.ensureAuthenticatedFull, function(req,res){
+	if(JSON.stringify(req.params) === '{}'){
+		res.send(500, 'request doesnt have parameters');
+	}else{
+
 	var game = new Game({
 		title: req.body.gametitle,
 		description: req.body.gamedescription,
@@ -27,7 +31,7 @@ router.post('/newgame',middleware.ensureAuthenticatedFull, function(req,res){
 		res.send(game);
 		console.log(req.body);
 	})
-});
+}});
 
 //GET game list 
 

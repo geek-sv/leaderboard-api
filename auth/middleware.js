@@ -16,7 +16,7 @@ exports.ensureAuthenticatedRead = function(req,res,next){
             if(err){
             	jwt.verify(token,config.phraseadmin,function(err,decodec){
             		if(err){
-            			res.send(500,'Invalid Token');
+            			res.send(403,'Invalid Token');
             	}else{
             		res.decoded = decoded;
             		next();
@@ -40,7 +40,7 @@ exports.ensureAuthenticatedFull = function(req,res,next){
 
 	        jwt.verify(token, config.phraseadmin, function(err, decoded){
             if(err){ 
-            	res.send(500,'Invalid Token');
+            	res.send(403,'Invalid Token');
             }else{
             	req.decoded = decoded; 
             	next();
