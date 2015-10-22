@@ -14,6 +14,9 @@ router.get('/newscore', middleware.ensureAuthenticatedFull, function(req,res){
 
 // save New Player
 router.post('/newscore', middleware.ensureAuthenticatedFull, function(req,res,next){
+	if(JSON.stringify(req.body) === '{}'){
+		res.send(500, 'request doesnt have parameters');
+	}else{
 	var scored = new Score({
 		player: req.body.playerid,
 		game: req.body.gameid,
@@ -24,9 +27,9 @@ router.post('/newscore', middleware.ensureAuthenticatedFull, function(req,res,ne
 		if(err)
 			return res.send(500, err.message);
 		res.send(scored);
-	})
+	});
 
-
+}
 });
 
 
