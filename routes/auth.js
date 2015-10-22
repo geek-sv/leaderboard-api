@@ -15,7 +15,7 @@ router.get('/', function(req, res){
 });
 
 
-router.post('/auth', function(req,res){
+router.post('/', function(req,res){
 	//Find the user
 	User.findOne({
 		username:req.body.username
@@ -40,7 +40,7 @@ router.post('/auth', function(req,res){
 							{
 								expiresInMinutes: 43200
 							});
-							res.send(token);	
+							res.send('token created');	
 					}else{
 						var token = jwt.sign(
 							user.role, 
@@ -48,7 +48,7 @@ router.post('/auth', function(req,res){
 							{
 								expiresInMinutes: 43200
 							});
-							res.send(token);
+							res.send('token created');
 					}
 				
 				}
