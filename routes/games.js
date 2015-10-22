@@ -15,7 +15,7 @@ router.get('/newgame',middleware.ensureAuthenticatedFull, function(req,res,next)
 
 //Save new game in DB
 router.post('/newgame',middleware.ensureAuthenticatedFull, function(req,res){
-	if(JSON.stringify(req.params) === '{}'){
+	if(JSON.stringify(req.body) === '{}'){
 		res.send(500, 'request doesnt have parameters');
 	}else{
 

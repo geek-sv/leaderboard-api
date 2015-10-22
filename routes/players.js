@@ -20,7 +20,7 @@ router.get('/newplayer',middleware.ensureAuthenticatedFull, function(req,res,nex
 
 // Save New Player
 router.post('/newplayer',middleware.ensureAuthenticatedFull, function(req,res,next){
-	if(JSON.stringify(req.params) === '{}'){
+	if(JSON.stringify(req.body) === '{}'){
 		res.send(500, 'request doesnt have parameters');
 	}else{
 		var player = new Player({
